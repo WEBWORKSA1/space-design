@@ -166,46 +166,88 @@
   /* ---------- Year ---------- */
   d.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  /* ---------- Self-updating news feed ---------- */
+  /* ---------- Self-updating news & video feeds ----------
+     1) data/*.json is refreshed server-side by the GitHub Action.
+     2) If it is empty, feeds are pulled live in the browser (cached per session). */
   function esc(s) { return String(s || '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function base() { return d.body.getAttribute('data-base') || ''; }
-  var newsEl = d.getElementById('news-feed');
-  if (newsEl) {
-    fetch(base() + 'data/news.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (j) {
-      var items = (j.items || []).slice(0, parseInt(newsEl.getAttribute('data-limit') || '12', 10));
-      if (!items.length) { newsEl.innerHTML = '<p class="muted">Fresh headlines are being collected — check back shortly.</p>'; return; }
-      newsEl.innerHTML = items.map(function (it) {
-        return '<a class="feed-item" href="' + esc(it.link) + '" target="_blank" rel="noopener nofollow"><div><span class="feed-src">' + esc(it.source) + '</span><div><strong>' + esc(it.title) + '</strong></div><small>' + esc((it.date || '').slice(0, 10)) + '</small></div></a>';
-      }).join('');
-      var up = d.getElementById('news-updated'); if (up && j.updated) up.textContent = 'Auto-updated ' + j.updated.slice(0, 16).replace('T', ' ') + ' UTC';
-    }).catch(function () {});
+  function getJSON(u) { return fetch(u, { cache: 'no-cache' }).then(function (r) { return r.json(); }); }
+  function rss(url) {
+    return fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(url)).then(function (r) { return r.json(); })
+      .then(function (j) { return j && j.status === 'ok' ? j.items || [] : []; }).catch(function () { return []; });
+  }
+  function cached(key, maker) {
+    try { var c = JSON.parse(sessionStorage.getItem(key) || 'null'); if (c && c.length) return Promise.resolve(c); } catch (e) {}
+    return maker().then(function (v) { try { if (v.length) sessionStorage.setItem(key, JSON.stringify(v)); } catch (e) {} return v; });
+  }
+  function byDate(a, b) { return String(b.date || '').localeCompare(String(a.date || '')); }
+  function liveNews() {
+    return cached('sd-live-news', function () {
+      return getJSON(base() + 'data/site.json').then(function (cfg) {
+        return Promise.all((cfg.news_feeds || []).slice(0, 8).map(function (f) {
+          return rss(f.url).then(function (items) { return items.slice(0, 6).map(function (i) { return { title: i.title, link: i.link, date: String(i.pubDate || '').replace(' ', 'T'), source: f.name }; }); });
+        }));
+      }).then(function (lists) { return [].concat.apply([], lists).sort(byDate); });
+    });
+  }
+  function liveVideos() {
+    return cached('sd-live-videos', function () {
+      return getJSON(base() + 'data/site.json').then(function (cfg) {
+        return Promise.all((cfg.youtube_channels || []).filter(function (c) { return c.id; }).map(function (c) {
+          return rss('https://www.youtube.com/feeds/videos.xml?channel_id=' + c.id).then(function (items) {
+            return items.slice(0, 6).map(function (i) {
+              var m = String(i.link || i.guid || '').match(/(?:v=|video:)([\w-]{11})/);
+              return m ? { id: m[1], title: i.title, channel: i.author || c.handle, date: String(i.pubDate || '').replace(' ', 'T'), category: c.category } : null;
+            }).filter(Boolean);
+          });
+        }));
+      }).then(function (lists) { return [].concat.apply([], lists).sort(byDate); });
+    });
   }
 
-  /* ---------- Self-updating video library ---------- */
+  var newsEl = d.getElementById('news-feed');
+  function renderNews(items, updated) {
+    items = items.slice(0, parseInt(newsEl.getAttribute('data-limit') || '12', 10));
+    if (!items.length) { newsEl.innerHTML = '<p class="muted">Fresh headlines are being collected — check back shortly.</p>'; return; }
+    newsEl.innerHTML = items.map(function (it) {
+      return '<a class="feed-item" href="' + esc(it.link) + '" target="_blank" rel="noopener nofollow"><div><span class="feed-src">' + esc(it.source) + '</span><div><strong>' + esc(it.title) + '</strong></div><small>' + esc((it.date || '').slice(0, 10)) + '</small></div></a>';
+    }).join('');
+    var up = d.getElementById('news-updated'); if (up) up.textContent = updated ? 'Auto-updated ' + updated.slice(0, 16).replace('T', ' ') + ' UTC' : 'Live feed';
+  }
+  if (newsEl) {
+    getJSON(base() + 'data/news.json').then(function (j) {
+      if (j.items && j.items.length) return renderNews(j.items, j.updated);
+      return liveNews().then(function (items) { renderNews(items); });
+    }).catch(function () { liveNews().then(function (items) { renderNews(items); }); });
+  }
+
   var vidEl = d.getElementById('video-feed');
+  function renderVideos(all) {
+    if (!all.length) { vidEl.innerHTML = '<p class="muted">New videos are being collected — check back shortly.</p>'; return; }
+    var limit = parseInt(vidEl.getAttribute('data-limit') || '60', 10);
+    var chips = d.getElementById('video-chips');
+    function render(cat) {
+      var list = all.filter(function (v) { return !cat || cat === 'all' || v.category === cat; }).slice(0, limit);
+      vidEl.innerHTML = list.map(function (v) {
+        return '<div class="video"><div class="frame" data-yt="' + esc(v.id) + '"><img loading="lazy" src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="' + esc(v.title) + '"></div><div class="cap"><strong>' + esc(v.title) + '</strong><small>' + esc(v.channel) + ' · ' + esc((v.date || '').slice(0, 10)) + '</small></div></div>';
+      }).join('');
+    }
+    if (chips) {
+      var cats = ['all'].concat(Array.from(new Set(all.map(function (v) { return v.category; }))));
+      chips.innerHTML = cats.map(function (c, i) { return '<button class="chip' + (i ? '' : ' on') + '" data-cat="' + esc(c) + '">' + esc(c === 'all' ? 'All videos' : c) + '</button>'; }).join('');
+      chips.onclick = function (e) {
+        var b = e.target.closest('[data-cat]'); if (!b) return;
+        chips.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
+        render(b.getAttribute('data-cat'));
+      };
+    }
+    render('all');
+  }
   if (vidEl) {
-    fetch(base() + 'data/videos.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (j) {
-      var all = j.items || [];
-      if (!all.length) { vidEl.innerHTML = '<p class="muted">New videos are being collected — check back shortly.</p>'; return; }
-      var limit = parseInt(vidEl.getAttribute('data-limit') || '60', 10);
-      var chips = d.getElementById('video-chips');
-      function render(cat) {
-        var list = all.filter(function (v) { return !cat || cat === 'all' || v.category === cat; }).slice(0, limit);
-        vidEl.innerHTML = list.map(function (v) {
-          return '<div class="video"><div class="frame" data-yt="' + esc(v.id) + '"><img loading="lazy" src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="' + esc(v.title) + '"></div><div class="cap"><strong>' + esc(v.title) + '</strong><small>' + esc(v.channel) + ' · ' + esc((v.date || '').slice(0, 10)) + '</small></div></div>';
-        }).join('');
-      }
-      if (chips) {
-        var cats = ['all'].concat(Array.from(new Set(all.map(function (v) { return v.category; }))));
-        chips.innerHTML = cats.map(function (c, i) { return '<button class="chip' + (i ? '' : ' on') + '" data-cat="' + esc(c) + '">' + esc(c === 'all' ? 'All videos' : c) + '</button>'; }).join('');
-        chips.addEventListener('click', function (e) {
-          var b = e.target.closest('[data-cat]'); if (!b) return;
-          chips.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
-          render(b.getAttribute('data-cat'));
-        });
-      }
-      render('all');
-    }).catch(function () {});
+    getJSON(base() + 'data/videos.json').then(function (j) {
+      if (j.items && j.items.length) return renderVideos(j.items);
+      return liveVideos().then(renderVideos);
+    }).catch(function () { liveVideos().then(renderVideos); });
   }
   d.addEventListener('click', function (e) {
     var f = e.target.closest('[data-yt]');
