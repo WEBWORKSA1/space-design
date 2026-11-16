@@ -1,0 +1,2 @@
+# GitHub Pages (Jekyll) wraps each page in _layouts/default.html
+exclude: [src, scripts, README.md]
