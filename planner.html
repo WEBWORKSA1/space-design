@@ -1,0 +1,35 @@
+---
+layout: default
+pre: ""
+t: |-
+  Free 2D Room Planner — Drag &amp; Drop Furniture at Real Scale | Space.Design
+d: |-
+  Plan any room online for free: set dimensions, drag true-to-scale furniture, rotate, check walkway space and export your floor plan as an image.
+canon: |-
+  https://space.design/planner.html
+robots: |-
+  <meta name="robots" content="index,follow,max-image-preview:large">
+b: ""
+sch: ""
+nav: |-
+  <li><a href="tools.html">Tools</a></li><li><a href="planner.html" aria-current="page">Room Planner</a></li><li><a href="quiz.html">Style Quiz</a></li><li><a href="styles.html">Styles</a></li><li><a href="guides/index.html">Guides</a></li><li><a href="videos.html">Videos</a></li><li><a href="news.html">News</a></li><li><a href="contests.html">Contests</a></li><li class="mobile-only"><a href="get-quote.html">Get Free Quotes</a></li>
+js: |-
+  <script src="assets/js/planner.js" defer></script>
+---
+
+<section class="block"><div class="wrap">
+<span class="eyebrow">Free tool</span><h1>2D room planner</h1>
+<p class="muted" style="max-width:70ch">Set your room size, add true-to-scale furniture, drag to arrange and press <span class="kbd">R</span> to rotate or <span class="kbd">Delete</span> to remove. Your plan saves automatically in this browser.</p>
+<div class="form" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));display:grid;gap:12px;margin:18px 0">
+<div><label for="pl-w">Room width (ft)</label><input id="pl-w" type="number" min="4" step="0.5"></div>
+<div><label for="pl-l">Room length (ft)</label><input id="pl-l" type="number" min="4" step="0.5"></div>
+<div style="display:flex;align-items:end"><label class="check"><input type="checkbox" id="pl-snap" checked> Snap to 6"</label></div></div>
+<div class="planner"><div class="palette" id="pl-palette"></div>
+<div><canvas id="room" aria-label="Room plan canvas"></canvas>
+<div class="result" id="pl-stats"></div>
+<div class="hero-cta"><button class="btn btn-sm" id="pl-rot" type="button">↻ Rotate</button><button class="btn btn-sm btn-ghost" id="pl-del" type="button">Delete</button><button class="btn btn-sm btn-ghost" id="pl-clear" type="button">Clear all</button><button class="btn btn-sm btn-accent" id="pl-png" type="button">Download PNG</button></div></div></div>
+<div class="grid g3 mt">
+<div class="card"><h3>Walkways</h3><p>Keep 36" (3 ft) for main paths and 30" minimum elsewhere. Each grid square is 1 ft.</p></div>
+<div class="card"><h3>Footprint</h3><p>Aim to keep furniture under 50–60% of the floor. The live stat turns orange when a room is crowded.</p></div>
+<div class="card"><h3>Next step</h3><p>Happy with the layout? <a href="get-quote.html">Send it to a designer</a> for finishes, lighting and a shopping list.</p></div></div>
+</div></section>
