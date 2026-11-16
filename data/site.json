@@ -1,0 +1,34 @@
+{
+ "_note": "Edit this file to change feeds or add donation links. Paste PayPal / Stripe / Buy Me a Coffee URLs into donate_links and they appear on donate.html automatically.",
+ "donate_links": [
+  {"label": "Donate with PayPal", "url": ""},
+  {"label": "Donate by card (Stripe)", "url": ""},
+  {"label": "Buy us a coffee", "url": ""}
+ ],
+ "news_feeds": [
+  {"name": "Dezeen", "url": "https://www.dezeen.com/feed/"},
+  {"name": "ArchDaily", "url": "https://feeds.feedburner.com/Archdaily"},
+  {"name": "Design Milk", "url": "https://design-milk.com/feed/"},
+  {"name": "designboom", "url": "https://www.designboom.com/feed/"},
+  {"name": "Yanko Design", "url": "https://www.yankodesign.com/feed/"},
+  {"name": "Apartment Therapy", "url": "https://www.apartmenttherapy.com/main.rss"},
+  {"name": "Contemporist", "url": "https://www.contemporist.com/feed/"},
+  {"name": "Inhabitat", "url": "https://inhabitat.com/feed/"},
+  {"name": "Remodelista", "url": "https://www.remodelista.com/feed/"},
+  {"name": "Gardenista", "url": "https://www.gardenista.com/feed/"}
+ ],
+ "youtube_channels": [
+  {"handle": "NeverTooSmall", "category": "Small spaces"},
+  {"handle": "ArchitecturalDigest", "category": "Home tours"},
+  {"handle": "Dezeen", "category": "Architecture"},
+  {"handle": "thisoldhouse", "category": "Renovation"},
+  {"handle": "StudioMcGee", "category": "Interior design"},
+  {"handle": "AlexandraGater", "category": "DIY & rentals"},
+  {"handle": "TheSorryGirls", "category": "DIY & rentals"},
+  {"handle": "LoneFox", "category": "Interior design"},
+  {"handle": "ELLEDECOR", "category": "Home tours"},
+  {"handle": "ApartmentTherapy", "category": "Small spaces"},
+  {"handle": "NickLewisDesigns", "category": "Interior design"},
+  {"handle": "HomeRenovisionDIY", "category": "Renovation"}
+ ]
+}
