@@ -2,7 +2,7 @@
 
 Space.Design is a free "plan · measure · design" platform. It includes a 2D room planner, 9 calculators, a style quiz, original guides, a design news and video feed that updates itself, a designer and contractor matching funnel, donations, contests, careers and advertising pages.
 
-It is a static site with pre-built HTML at the repo root. It is ready for GitHub Pages on the free plan, served from the `main` branch at `/ (root)`.
+It is a static site served by GitHub Pages on the free plan from the `main` branch at `/ (root)`. Each page keeps only its own content, and Pages' built-in Jekyll wraps it in the shared header and footer in `_layouts/default.html`. No workflow file is needed for that.
 
 ## Monetization
 - **Google AdSense:** the `ca-pub-6620975821265271` loader is on every page, along with `ads.txt` and the policy pages.
@@ -21,8 +21,10 @@ All forms post through FormSubmit's AJAX endpoint. The destination address is as
 Page HTML is generated from `src/build.py`, and guide articles are in `src/guides.py`. To rebuild, run:
 
 ```
-cd src && python3 build.py
+cd src && python3 build.py && python3 jekyllify.py
 ```
+
+`build.py` writes complete pages. `jekyllify.py` then splits them into the shared layout plus per-page content, and checks that every page still renders byte-identical.
 
 ## Go live on space.design
 1. Turn on Pages: Settings, then Pages, then Deploy from branch, then `main`, then `/ (root)`.
