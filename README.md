@@ -2,7 +2,7 @@
 
 Space.Design is a free "plan · measure · design" platform. It includes a 2D room planner, 9 calculators, a style quiz, original guides, a design news and video feed that updates itself, a designer and contractor matching funnel, donations, contests, careers and advertising pages.
 
-It is a static site with no build step needed at deploy time. It is ready for GitHub Pages on the free plan, served from the `main` branch at `/ (root)`.
+It is a static site with pre-built HTML at the repo root. It is ready for GitHub Pages on the free plan, served from the `main` branch at `/ (root)`.
 
 ## Monetization
 - **Google AdSense:** the `ca-pub-6620975821265271` loader is on every page, along with `ads.txt` and the policy pages.
@@ -14,10 +14,11 @@ It is a static site with no build step needed at deploy time. It is ready for Gi
 All forms post through FormSubmit's AJAX endpoint. The destination address is assembled at runtime from encoded character codes in `assets/js/main.js`, so it never appears in the HTML. The **first** submission sends a one-time activation email, and you need to click it once to activate.
 
 ## Self-updating
-`.github/workflows/build.yml` regenerates every page whenever `src/` or `assets/` changes. Every 6 hours it also runs `scripts/update_feeds.py`, which refreshes `data/news.json` from 10 design RSS feeds and `data/videos.json` from 12 YouTube channels. The feed lists live in `data/site.json`.
+- **Right away:** if `data/news.json` or `data/videos.json` is empty, visitors' browsers pull the RSS feeds live (cached per session).
+- **Server-side automation (recommended):** copy `docs/github-workflow-build.yml` to `.github/workflows/build.yml`. You can do this on GitHub with Add file, then Create new file, and paste it in. From then on it rebuilds the pages whenever `src/` changes, and every 6 hours it refreshes `data/news.json` from 10 design RSS feeds and `data/videos.json` from 12 YouTube channels. The feed lists live in `data/site.json`.
 
 ## Editing pages
-Page HTML is generated from `src/build.py`, and guide articles are in `src/guides.py`. Edit either one and push: the workflow rebuilds the site. To build locally, run:
+Page HTML is generated from `src/build.py`, and guide articles are in `src/guides.py`. To rebuild, run:
 
 ```
 cd src && python3 build.py

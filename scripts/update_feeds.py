@@ -56,9 +56,7 @@ def news():
     return uniq[:80]
 
 
-def channel_id(ch):
-    if ch.get("id"):
-        return ch["id"]
+def resolve_handle(ch):
     html = get("https://www.youtube.com/@" + ch["handle"]).decode("utf-8", "ignore")
     m = re.search(r'"(?:externalId|channelId)":"(UC[\w-]{22})"', html) or re.search(r'channel/(UC[\w-]{22})', html)
     return m.group(1) if m else None
@@ -68,10 +66,17 @@ def videos():
     items = []
     for ch in CFG["youtube_channels"]:
         try:
-            cid = channel_id(ch)
-            if not cid:
-                raise ValueError("no channel id")
-            root = ET.fromstring(get(f"https://www.youtube.com/feeds/videos.xml?channel_id={cid}"))
+            root = None
+            for attempt in (lambda: ch.get("id"), lambda: resolve_handle(ch)):
+                try:
+                    cid = attempt()
+                    if cid:
+                        root = ET.fromstring(get(f"https://www.youtube.com/feeds/videos.xml?channel_id={cid}"))
+                        break
+                except Exception:
+                    continue
+            if root is None:
+                raise ValueError("channel not reachable")
             cname = root.findtext("atom:title", namespaces=NS) or ch["handle"]
             for e in root.findall("atom:entry", NS)[:6]:
                 vid = e.findtext("yt:videoId", namespaces=NS)

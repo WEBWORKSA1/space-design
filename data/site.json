@@ -1,9 +1,18 @@
 {
  "_note": "Edit this file to change feeds or add donation links. Paste PayPal / Stripe / Buy Me a Coffee URLs into donate_links and they appear on donate.html automatically.",
  "donate_links": [
-  {"label": "Donate with PayPal", "url": ""},
-  {"label": "Donate by card (Stripe)", "url": ""},
-  {"label": "Buy us a coffee", "url": ""}
+  {
+   "label": "Donate with PayPal",
+   "url": ""
+  },
+  {
+   "label": "Donate by card (Stripe)",
+   "url": ""
+  },
+  {
+   "label": "Buy us a coffee",
+   "url": ""
+  }
  ],
  "news_feeds": [
   {"name": "Dezeen", "url": "https://www.dezeen.com/feed/"},
@@ -18,15 +27,15 @@
   {"name": "Gardenista", "url": "https://www.gardenista.com/feed/"}
  ],
  "youtube_channels": [
-  {"handle": "NeverTooSmall", "category": "Small spaces"},
+  {"handle": "NeverTooSmall", "category": "Small spaces", "id": "UC_zQ777U6YTyatP3P1wi3xw"},
   {"handle": "ArchitecturalDigest", "category": "Home tours"},
-  {"handle": "Dezeen", "category": "Architecture"},
-  {"handle": "thisoldhouse", "category": "Renovation"},
-  {"handle": "StudioMcGee", "category": "Interior design"},
-  {"handle": "AlexandraGater", "category": "DIY & rentals"},
+  {"handle": "Dezeen", "category": "Architecture", "id": "UCsWG9ANbrmgR0z-eFk_A3YQ"},
+  {"handle": "thisoldhouse", "category": "Renovation", "id": "UCUtWNBWbFL9We-cdXkiAuJA"},
+  {"handle": "StudioMcGee", "category": "Interior design", "id": "UCXvzpK4eKUJysEZ42zjTUdw"},
+  {"handle": "AlexandraGater", "category": "DIY & rentals", "id": "UCrh9tOpAY2-Ev5pRssXq2Wg"},
   {"handle": "TheSorryGirls", "category": "DIY & rentals"},
   {"handle": "LoneFox", "category": "Interior design"},
-  {"handle": "ELLEDECOR", "category": "Home tours"},
+  {"handle": "ELLEDECOR", "category": "Home tours", "id": "UCkapK5Oc7CHcQUF_JX1aEXQ"},
   {"handle": "ApartmentTherapy", "category": "Small spaces"},
   {"handle": "NickLewisDesigns", "category": "Interior design"},
   {"handle": "HomeRenovisionDIY", "category": "Renovation"}

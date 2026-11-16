@@ -1,0 +1,40 @@
+# Copy this file to .github/workflows/build.yml to switch on server-side automation.
+name: Build site & auto-update feeds
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ["*.html", "guides/**", "data/news.json", "data/videos.json", "sitemap.xml", "robots.txt", "ads.txt", "manifest.webmanifest"]
+  schedule:
+    - cron: "17 */6 * * *"   # refresh news & videos every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check JavaScript syntax
+        run: for f in assets/js/*.js; do node --check "$f"; done
+      - name: Generate pages
+        run: cd src && python build.py
+      - name: Refresh news & videos
+        run: python scripts/update_feeds.py || true
+      - name: Commit
+        run: |
+          git config user.name "space-design-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "chore: build pages & refresh feeds"
+          git push
