@@ -1,0 +1,76 @@
+---
+layout: default
+pre: ""
+t: |-
+  Free Interior Design Calculators — Paint, Flooring, Rug, Lighting &amp; Budget | Space.Design
+d: |-
+  Free interior design calculators: paint, flooring, rug size, lumens, renovation budget, wallpaper, furniture fit, art height and colour palette generator. Feet or metres.
+canon: |-
+  https://space.design/tools.html
+robots: |-
+  <meta name="robots" content="index,follow,max-image-preview:large">
+b: ""
+sch: |-
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Space.Design calculators", "applicationCategory": "DesignApplication", "offers": {"@type": "Offer", "price": "0"}}</script>
+nav: |-
+  <li><a href="tools.html" aria-current="page">Tools</a></li><li><a href="planner.html">Room Planner</a></li><li><a href="quiz.html">Style Quiz</a></li><li><a href="styles.html">Styles</a></li><li><a href="guides/index.html">Guides</a></li><li><a href="videos.html">Videos</a></li><li><a href="news.html">News</a></li><li><a href="contests.html">Contests</a></li><li class="mobile-only"><a href="get-quote.html">Get Free Quotes</a></li>
+js: |-
+  <script src="assets/js/tools.js" defer></script>
+---
+
+<section class="block"><div class="wrap">
+<span class="eyebrow">Free calculators</span><h1>Interior design calculators</h1>
+<p class="lead muted" style="max-width:65ch">Nine fast, accurate tools for planning paint, floors, rugs, lighting, budgets, colour and furniture fit. Results update as you type.</p>
+<div class="tool-nav"><a href="#paint">🎨 Paint calculator</a><a href="#flooring">🪵 Flooring calculator</a><a href="#rug">🟫 Rug size finder</a><a href="#lighting">💡 Lumens calculator</a><a href="#budget">💰 Renovation budget</a><a href="#palette">🌈 Palette generator</a><a href="#clearance">📏 Furniture fit check</a><a href="#wallpaper">🧻 Wallpaper rolls</a><a href="#art">🖼️ Art hanging height</a></div>
+<div class="grid g2">
+
+<div class="tool" id="paint"><h3>🎨 Paint calculator</h3><form id="paint-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="paint-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="paint-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="p-l">Room length</label><input id="p-l" type="number" min="0" step="0.1" value="14" inputmode="decimal"></div><div><label for="p-w">Room width</label><input id="p-w" type="number" min="0" step="0.1" value="12" inputmode="decimal"></div></div><div class="row"><div><label for="p-h">Wall height</label><input id="p-h" type="number" min="0" step="0.1" value="8" inputmode="decimal"></div><div><label for="p-coats">Coats</label><input id="p-coats" type="number" min="0" step="1" value="2" inputmode="decimal"></div></div>
+<div class="row"><div><label for="p-doors">Doors</label><input id="p-doors" type="number" min="0" step="1" value="1" inputmode="decimal"></div><div><label for="p-wins">Windows</label><input id="p-wins" type="number" min="0" step="1" value="2" inputmode="decimal"></div></div><label class="check"><input type="checkbox" id="p-ceil"> Include ceiling</label></div></form>
+<div class="result" id="paint-out"></div></div>
+
+<div class="tool" id="flooring"><h3>🪵 Flooring calculator</h3><form id="floor-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="floor-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="floor-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="f-l">Room length</label><input id="f-l" type="number" min="0" step="0.1" value="14" inputmode="decimal"></div><div><label for="f-w">Room width</label><input id="f-w" type="number" min="0" step="0.1" value="12" inputmode="decimal"></div></div>
+<div class="row"><div><label for="f-waste">Waste allowance</label><select id="f-waste"><option value="5">5% (straight lay, simple room)</option><option value="10" selected>10% (standard)</option><option value="15">15% (diagonal / herringbone)</option></select></div><div><label for="f-box">Coverage per box</label><input id="f-box" type="number" min="0" step="0.1" value="20" inputmode="decimal"></div></div>
+<div><label for="f-price">Price per unit area (optional)</label><input id="f-price" type="number" min="0" step="0.01" value="0" inputmode="decimal"></div></div></form>
+<div class="result" id="floor-out"></div></div>
+
+<div class="tool" id="rug"><h3>🟫 Rug size finder</h3><form id="rug-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="rug-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="rug-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="r-l">Room length</label><input id="r-l" type="number" min="0" step="0.1" value="14" inputmode="decimal"></div><div><label for="r-w">Room width</label><input id="r-w" type="number" min="0" step="0.1" value="12" inputmode="decimal"></div></div>
+<div><label for="r-room">Room</label><select id="r-room"><option value="living">Living room</option><option value="bedroom">Bedroom</option><option value="dining">Dining room</option><option value="entry">Entry / hallway</option></select></div></div></form>
+<div class="result" id="rug-out"></div></div>
+
+<div class="tool" id="lighting"><h3>💡 Lumens calculator</h3><form id="light-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="light-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="light-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="l-l">Room length</label><input id="l-l" type="number" min="0" step="0.1" value="14" inputmode="decimal"></div><div><label for="l-w">Room width</label><input id="l-w" type="number" min="0" step="0.1" value="12" inputmode="decimal"></div></div>
+<div><label for="l-type">Room type</label><select id="l-type"><option value="living">Living room</option><option value="bedroom">Bedroom</option><option value="kitchen">Kitchen</option><option value="dining">Dining</option><option value="bathroom">Bathroom</option><option value="office">Home office</option><option value="hallway">Hallway</option></select></div></div></form>
+<div class="result" id="light-out"></div></div>
+
+<div class="tool" id="budget"><h3>💰 Renovation budget estimator</h3><form id="budget-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="budget-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="budget-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="b-area">Floor area</label><input id="b-area" type="number" min="0" step="1" value="120" inputmode="decimal"></div><div><label for="b-room">Room</label><select id="b-room"><option value="kitchen">Kitchen</option><option value="bathroom">Bathroom</option><option value="living">Living room</option><option value="bedroom">Bedroom</option><option value="basement">Basement</option><option value="office">Home office</option></select></div></div>
+<div class="row"><div><label for="b-level">Finish level</label><select id="b-level"><option value="basic">Basic</option><option value="mid" selected>Mid-range</option><option value="luxury">High-end</option></select></div>
+<div><label for="b-region">Cost of living</label><select id="b-region"><option value="0.8">Lower-cost area</option><option value="1" selected>Average</option><option value="1.3">High-cost city</option></select></div></div></div></form>
+<div class="result" id="budget-out"></div></div>
+
+<div class="tool" id="palette"><h3>🌈 Colour palette generator</h3><form id="palette-form" onsubmit="return false"><div class="form"><div class="row">
+<div><label for="pal-base">Base colour</label><input type="color" id="pal-base" value="#5F7A65" style="height:48px;padding:4px"></div>
+<div><label for="pal-mode">Harmony</label><select id="pal-mode"><option value="mono">Monochrome</option><option value="analogous">Analogous</option><option value="complementary">Complementary</option><option value="triadic">Triadic</option></select></div></div>
+<button type="button" class="btn btn-sm btn-ghost" id="pal-random">🎲 Surprise me</button></div></form>
+<div class="swatches" id="pal-out"></div><p class="muted" style="font-size:.85rem;margin-top:8px">Click a swatch to copy its hex code.</p></div>
+
+<div class="tool" id="clearance"><h3>📏 Furniture fit checker</h3><form id="fit-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="fit-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="fit-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="c-rl">Room length</label><input id="c-rl" type="number" min="0" step="0.1" value="14" inputmode="decimal"></div><div><label for="c-rw">Room width</label><input id="c-rw" type="number" min="0" step="0.1" value="12" inputmode="decimal"></div></div><div class="row"><div><label for="c-fl">Furniture length</label><input id="c-fl" type="number" min="0" step="0.1" value="7" inputmode="decimal"></div><div><label for="c-fw">Furniture depth</label><input id="c-fw" type="number" min="0" step="0.1" value="3" inputmode="decimal"></div></div></div></form>
+<div class="result" id="fit-out"></div></div>
+
+<div class="tool" id="wallpaper"><h3>🧻 Wallpaper roll calculator</h3><form id="paper-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="paper-unit" value="ft" checked> ft</label><label class="check"><input type="radio" name="paper-unit" value="m"> m</label></div>
+<div class="form"><div class="row"><div><label for="w-perim">Wall width to cover</label><input id="w-perim" type="number" min="0" step="0.1" value="40" inputmode="decimal"></div><div><label for="w-h">Wall height</label><input id="w-h" type="number" min="0" step="0.1" value="8" inputmode="decimal"></div></div><div><label for="w-rep">Pattern repeat (in / cm)</label><input id="w-rep" type="number" min="0" step="1" value="21" inputmode="decimal"></div>
+<p class="muted" style="font-size:.85rem;margin:0">Assumes a standard roll ≈ 21&quot; × 33 ft (0.53 × 10.05 m).</p></div></form>
+<div class="result" id="paper-out"></div></div>
+
+<div class="tool" id="art"><h3>🖼️ Art hanging height</h3><form id="art-form" onsubmit="return false"><div class="chip-row" style="margin:0 0 6px"><label class="check"><input type="radio" name="art-unit" value="in" checked> in</label><label class="check"><input type="radio" name="art-unit" value="cm"> cm</label></div>
+<div class="form"><div class="row"><div><label for="a-h">Frame height</label><input id="a-h" type="number" min="0" step="0.1" value="24" inputmode="decimal"></div><div><label for="a-hook">Hook to top of frame (wire drop)</label><input id="a-hook" type="number" min="0" step="0.1" value="3" inputmode="decimal"></div></div></div></form>
+<div class="result" id="art-out"></div></div>
+
+</div>
+<div class="ad-wrap"></div>
+<div class="band mt center"><h2>Rather have a pro do the maths?</h2><p>Get matched with vetted designers and contractors near you — free.</p><a class="btn btn-accent" href="get-quote.html">Get free quotes</a></div>
+</div></section>
